@@ -29,7 +29,8 @@ fun main() {
 
     logger.trace{String(con.query(Query("CREATE SPACE IF NOT EXISTS test_space")), Charsets.UTF_8)}
     logger.trace{String(con.query(Query("CREATE MODEL IF NOT EXISTS test_space.test_model_string(stringKey: string, stringValue: string)")), Charsets.UTF_8)}
-    logger.trace{String(con.query(Query("CREATE MODEL IF NOT EXISTS test_space.test_model_int(intKey: uint64, stringValue: string)")), Charsets.UTF_8)}
+    logger.trace{String(con.query(Query("CREATE MODEL IF NOT EXISTS test_space.test_model_uint64(intKey: uint64, stringValue: string)")), Charsets.UTF_8)}
+    logger.trace{String(con.query(Query("CREATE MODEL IF NOT EXISTS test_space.test_model_sint64(intKey: sint64, stringValue: string)")), Charsets.UTF_8)}
     logger.trace{String(con.query(Query("INSPECT GLOBAL")), Charsets.UTF_8)}
     logger.trace{String(con.query(Query("INSPECT SPACE test_space")), Charsets.UTF_8)}
     logger.trace{String(con.query(Query("INSPECT MODEL test_space.test_model_string")), Charsets.UTF_8)}
@@ -37,7 +38,12 @@ fun main() {
 
     logger.trace{"#########################################################################################################"}
 
-    logger.trace{String(con.query(Query("INSERT INTO test_space.test_model_int(?,?)", 1, "test")), Charsets.UTF_8)}
+    logger.trace{String(con.query(Query("INSERT INTO test_space.test_model_uint64(?,?)", 1u, "test1")), Charsets.UTF_8)}
+    logger.trace{String(con.query(Query("DELETE FROM test_space.test_model_uint64 WHERE intKey = ?", 1,)), Charsets.UTF_8)}
+    logger.trace{String(con.query(Query("INSERT INTO test_space.test_model_sint64(?,?)", -1, "test-1")), Charsets.UTF_8)}
+    logger.trace{String(con.query(Query("INSERT INTO test_space.test_model_sint64(?,?)", 1, "test1")), Charsets.UTF_8)}
+    logger.trace{String(con.query(Query("DELETE FROM test_space.test_model_sint64 WHERE intKey = ?", -1,)), Charsets.UTF_8)}
+    logger.trace{String(con.query(Query("DELETE FROM test_space.test_model_sint64 WHERE intKey = ?", 1,)), Charsets.UTF_8)}
 
     logger.trace{"#########################################################################################################"}
 
